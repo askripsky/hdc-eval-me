@@ -1,0 +1,39 @@
+<div class='container'>
+    <div class="row">
+        <div ng-show="editMode">
+            Name:
+            <input type="text" ng-model="userName"/>
+            <button ng-click="saveName()" ng-show="editMode">Save</button>
+        </div>
+        <div ng-hide="editMode">
+            Name: {{userName}}
+            <button ng-click="editName()" ng-hide="editMode">Edit</button>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <table class="table table-striped">
+
+            <tr ng-repeat="question in questions">
+                <td>{{question}}</td>
+                <td>
+                    <select ng-model="evaluations[question]">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                    </select>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</div>
