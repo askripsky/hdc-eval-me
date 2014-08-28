@@ -7,7 +7,7 @@
             <tr>
                 <th>Question</th>
                 <th>Average</th>
-                <th ng-repeat="person in evaluators">{{person.$id}}</th>
+                <th ng-repeat="(key, person) in evaluators">{{key}}</th>
             </tr>
 
             <tr ng-repeat="question in questions">

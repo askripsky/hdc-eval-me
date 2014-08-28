@@ -1,17 +1,28 @@
 'use strict';
 
 angular.module('evalMeApp')
-    .controller('StaticResultsCtrl', function ($scope, $firebase, firebaseUrl) {
+    .controller('StaticResultsCtrl', function ($scope, $timeout, firebaseUrl) {
+
+        $scope.questions = [];
 
         var questionsRef = new Firebase(firebaseUrl).child('Questions');
-        $scope.questions = $firebase(questionsRef).$asObject();
+        questionsRef.once("value", function (snapshot) {
+            $timeout(function () {  // $timeout required or else Angular won't see change
+                $scope.questions = snapshot.val();
+            });
+        });
 
         var evalsRef1 = new Firebase(firebaseUrl).child('Evaluations');
-        $scope.evaluators = $firebase(evalsRef1).$asArray();
+        evalsRef1.once("value", function (snapshot) {
+            $timeout(function () {
+                $scope.evaluators = snapshot.val();
+                loadAverages();
+            });
+        });
 
         $scope.averages = {};
 
-        $scope.evaluators.$loaded().then(function () {
+        function loadAverages() {
             var questionCount = {};
             var questionSums = {};
 
@@ -31,7 +42,7 @@ angular.module('evalMeApp')
             angular.forEach($scope.questions, function (question) {
                 $scope.averages[question] = questionSums[question] / questionCount[question];
             });
-        });
+        }
 
         function verifyValueIsDefined(array, value) {
             if (typeof array[value] === 'undefined') {
