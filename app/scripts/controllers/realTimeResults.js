@@ -9,9 +9,12 @@ angular.module('evalMeApp')
         var evalsRef = new Firebase(firebaseUrl).child('Evaluations');
         $scope.evaluators = $firebase(evalsRef).$asArray();
 
+        $scope.evaluators.$watch(loadAverages);
+
         $scope.averages = {};
 
-        $scope.evaluators.$loaded().then(function () {
+        function loadAverages() {
+            $scope.averages = {};
             var questionCount = {};
             var questionSums = {};
 
@@ -31,7 +34,7 @@ angular.module('evalMeApp')
             angular.forEach($scope.questions, function (question) {
                 $scope.averages[question] = questionSums[question] / questionCount[question];
             });
-        });
+        }
 
         function verifyValueIsDefined(array, value) {
             if (typeof array[value] === 'undefined') {
