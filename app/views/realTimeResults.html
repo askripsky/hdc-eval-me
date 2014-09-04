@@ -5,16 +5,22 @@
         <table class="table table-bordered table-striped">
 
             <tr>
-                <th>Question</th>
-                <th>Average</th>
-                <th ng-repeat="person in evaluators">{{person.$id}}</th>
+                <th>Evaluator</th>
+                <th class="col-md-2" ng-repeat="question in questions">{{question}}</th>
             </tr>
 
-            <tr ng-repeat="question in questions">
-                <td>{{question}}</td>
-                <td>{{ averages[question] | number:2 }}</td>
-                <td ng-repeat="person in evaluators">{{person[question]}}</td>
+            <tr>
+                <td>Averages</td>
+                <td ng-repeat="question in questions">
+                    {{ averages[question] | number:2 }}
+                </td>
             </tr>
+
+            <tr ng-repeat="person in evaluators">
+                <td>{{person.$id}}</td>
+                <td ng-repeat="question in questions">{{person[question]}}</td>
+            </tr>
+
         </table>
     </div>
 </div>
